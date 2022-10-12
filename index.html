@@ -4,8 +4,29 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Image Board</title>
+        <link rel="stylesheet" href="/style.css" />
     </head>
     <body>
+
+<div id="main">
+    <header class="headers">
+<h1> {{ title }} </h1>
+<h2> Latest Images ⤵️ </h2>
+</header>
+
+<hr>
+
+<div class="flexContainer" v-if="images.length > 0">
+
+    <div class="picture" v-for="image in images">
+        <img :src="image.src" alt="Image Board picture" >
+        <p> {{ image.title }} </p>
+    </div>
+
+</div>
+
+</div>
+
         <script
             src="/js/app.js"
             type="module"
