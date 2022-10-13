@@ -10,22 +10,24 @@
 
 <div id="main">
     <header class="headers">
-<h1> {{ title }} </h1>
+<h1> {{ pageTitle }} </h1>
 <h2> Latest Images ⤵️ </h2>
 </header>
 
 <hr>
 
-<form action="/image" class="uploadForm" method="POST" enctype="multipart/form-data">
+<p class="status"> {{ message }} </p>
+
+<form v-on:submit.prevent="upload" action="/image" class="uploadForm" method="POST" enctype="multipart/form-data">
 
     <label for="title">Title</label>
-    <input type="text" name="title" id="titleField">
+    <input v-model="title" type="text" name="title" id="titleField">
 
     <label for="description">Description</label>
-    <input type="text" name="description" id="descriptionField">
+    <input v-model="description" type="text" name="description" id="descriptionField">
 
     <label for="username">Username</label>
-    <input type="text" name="username" id="usernameField">
+    <input v-model="username" type="text" name="username" id="usernameField">
 
     <label for="file">Choose a file ..</label>
     <input type="file" name="file" accept="images/*" id="imageUploader">
@@ -49,6 +51,7 @@
 </div>
 
 </div>
+
 
         <script
             src="/js/app.js"
