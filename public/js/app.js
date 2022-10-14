@@ -52,7 +52,7 @@ Vue.createApp({
                         this.message = data.message;
                     }
                     if (data.success) {
-                        this.images.push(data.newImage);
+                        this.images.unshift(data.newImage);
                     }
                 });
         },

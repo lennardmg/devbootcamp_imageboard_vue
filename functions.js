@@ -44,7 +44,8 @@ module.exports.insertImage = function (title, description, username, url) {
 
 module.exports.getAllImages = function () {
     const sql = `
-        SELECT title, description, username, url FROM images;
+        SELECT title, description, username, url FROM images
+        ORDER BY id DESC;
     `;
     return db
         .query(sql)

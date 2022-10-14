@@ -49,6 +49,3 @@ let images = [
         title: "Title6",
     },
 ];
-
-
-https://s3.amazonaws.com/spicedling/89OF0y1fQvwwFVv5qz4JLuPBJzw2HBYS.jpg
