@@ -1,5 +1,5 @@
 import * as Vue from './vue.js';
-
+import popupWindow from "./components.js";
 
 
 Vue.createApp({
@@ -9,8 +9,15 @@ Vue.createApp({
             pageTitle: "Lennard's Image Board 🏖️",
             message: "Please upload a file",
             images: [],
+            showPopUp: false,
+            selectedId: null,
         };
     },
+    /////////////////////////////////////////////////////////////////////////////////////
+    components: {
+        'popup-window': popupWindow,
+    },
+    props: [],
     /////////////////////////////////////////////////////////////////////////////////////
     methods: {
         upload(e) {
@@ -59,6 +66,18 @@ Vue.createApp({
         setFile(e) {
             /// here still needs to go sth 
             console.log("e in setFile: ", e);
+        },
+        openPopUp(e) {
+            console.log("e in openPopUp: ", e);
+            console.log("trying to get the image id: ", e.currentTarget);
+        },
+        showId(id) {
+            console.log("i clicked on image with id: ", id);
+            this.showPopUp = true;
+            this.selectedId = id;
+        },
+        closeWindow(e) {
+            this.showPopUp = false;
         },
     },
     mounted() {

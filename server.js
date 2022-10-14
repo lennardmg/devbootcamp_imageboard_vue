@@ -36,7 +36,17 @@ app.get("/getimages", (req, res) => {
     });
 });
 
-// new middleware needs to be inserted after "uploader.single()" --> will upload the new file to the cloud
+
+/////////////////////////////////////////////////////// Part 3 ////////////////////////////////////////////////////////
+
+app.get("/image/:id", (req, res) => {
+    // get id from the request
+    // get image data from database, finding by id
+});
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 app.post("/image", uploader.single("file"), s3.upload, (req, res) => {
     // console.log("req.body @post request: ", req.body.title[0]);
 

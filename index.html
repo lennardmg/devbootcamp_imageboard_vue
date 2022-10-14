@@ -9,10 +9,13 @@
     <body>
 
 <div id="main">
+
     <header class="headers">
 <h1> {{ pageTitle }} </h1>
 <h2> Latest Images ⤵️ </h2>
 </header>
+
+<popup-window v-if="showPopUp" v-bind:selected-id="selectedId" @close-pop-up="closeWindow"> </popup-window>
 
 <hr>
 
@@ -40,8 +43,8 @@
 
 <div class="flexContainer" v-if="images.length > 0">
 
-    <div class="picture" v-for="image in images">
-        <img :src="image.url" alt="Image Board picture" >
+    <div class="picture" v-for="image in images" @click="showId(image.id)">
+        <img :src="image.url" alt="Image Board picture">
         <p> {{ image.title }} <em> by {{ image.username }} </em> </p>
         <div class="content">
             <div class="text"> {{ image.description }} </div>

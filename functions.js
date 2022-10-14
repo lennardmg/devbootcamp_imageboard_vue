@@ -44,7 +44,7 @@ module.exports.insertImage = function (title, description, username, url) {
 
 module.exports.getAllImages = function () {
     const sql = `
-        SELECT title, description, username, url FROM images
+        SELECT * FROM images
         ORDER BY id DESC;
     `;
     return db
@@ -53,3 +53,13 @@ module.exports.getAllImages = function () {
         .catch((error) => console.log("error in insertUser function", error));
 };
 
+
+module.exports.getImage = function (id) {
+    const sql = `
+        SELECT * FROM images WHERE id = $1;
+    `;
+    return db
+        .query(sql, [id])
+        .then((result) => result.rows)
+        .catch((error) => console.log("error in insertUser function", error));
+};
