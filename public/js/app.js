@@ -1,33 +1,5 @@
 import * as Vue from './vue.js';
 
-let images = [
-    {
-        src: "https://picsum.photos/200",
-        title: "Title1",
-        description: "random description1",
-    },
-    {
-        src: "https://picsum.photos/300",
-        title: "Title2",
-        description: "random description2",
-    },
-    {
-        src: "https://picsum.photos/400",
-        title: "Title3",
-        description:
-            "very very very very very very veryvery very very very long description",
-    },
-    {
-        src: "https://picsum.photos/500",
-        title: "very long title that probably exceeds the field given under the image ...",
-        description: "",
-    },
-    {
-        src: "https://picsum.photos/600",
-        title: "Title6",
-    },
-];
-
 
 
 Vue.createApp({
@@ -36,7 +8,7 @@ Vue.createApp({
         return {
             pageTitle: "Lennard's Image Board 🏖️",
             message: "Please upload a file",
-            images: images,
+            images: [],
         };
     },
     /////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +21,8 @@ Vue.createApp({
             // check its files.
             // if no files, set error message!
             const fileInput = form.querySelector("input[type=file]");
-            console.log(fileInput.files);
+
+            console.log("fileInput.files in upload method: ", fileInput.files);
 
             if (fileInput.files.length < 1) {
                 this.message = "You must first select a file!";
@@ -57,6 +30,16 @@ Vue.createApp({
             }
 
             const myFormData = new FormData(form);
+
+            console.log("images: ", this.images);
+            console.log("myFormData: ", myFormData);
+
+            //// ??? /////
+            myFormData.append("title", this.images.title);
+            myFormData.append("description", this.images.description);
+            myFormData.append("username", this.images.username);
+            myFormData.append("file", this.images.file);
+            //// ???? ////
 
             fetch(form.action, {
                 method: "post",
@@ -73,6 +56,20 @@ Vue.createApp({
                     }
                 });
         },
+        setFile(e) {
+            /// here still needs to go sth 
+            console.log("e in setFile: ", e);
+        },
+    },
+    mounted() {
+
+          fetch("/getimages")
+              .then((res) => res.json())
+              .then((data) => {
+                  console.log("data received from server: ", data);
+                    this.images = data;
+              });
+
     },
     /////////////////////////////////////////////////////////////////////////////////////
 }).mount("#main");
