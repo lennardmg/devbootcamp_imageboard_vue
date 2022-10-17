@@ -38,7 +38,7 @@ module.exports.insertImage = function (title, description, username, url) {
     return db
         .query(sql, [title, description, username, url])
         .then((result) => result.rows)
-        .catch((error) => console.log("error in insertUser function", error));
+        .catch((error) => console.log("error in insertImage function", error));
 };
 
 
@@ -50,7 +50,7 @@ module.exports.getAllImages = function () {
     return db
         .query(sql)
         .then((result) => result.rows)
-        .catch((error) => console.log("error in insertUser function", error));
+        .catch((error) => console.log("error in GetAllImages function", error));
 };
 
 
@@ -60,6 +60,33 @@ module.exports.getImage = function (id) {
     `;
     return db
         .query(sql, [id])
+        .then((result) => result.rows[0])
+        .catch((error) => console.log("error in getImage function", error));
+};
+
+
+module.exports.getAllComments = function (image_id) {
+    const sql = `
+        SELECT * FROM comments
+        ORDER BY id DESC 
+        WHERE image_id = $1;
+    `;
+    return db
+        .query(sql, [image_id])
         .then((result) => result.rows)
-        .catch((error) => console.log("error in insertUser function", error));
+        .catch((error) => console.log("error in getAllComments function", error));
+};
+
+
+module.exports.insertComment = function (image_id, username, comment) {
+    const sql = `
+        INSERT INTO comments (image_id, username, comment)
+        VALUES ($1, $2, $3)
+    `;
+    return db
+        .query(sql, [image_id, username, comment])
+        .then((result) => result.rows)
+        .catch((error) =>
+            console.log("error in getAllComments function", error)
+        );
 };

@@ -65,6 +65,7 @@ input[type=submit] {
 }
 
 .picture {
+    cursor: pointer;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -80,7 +81,7 @@ input[type=submit] {
 }
 
 .picture img {
-    height:200px;
+    height: 200px;
     width:200px;
     border-radius: 10px;
     margin: 5px;
@@ -92,8 +93,6 @@ input[type=submit] {
     font-weight: bold;
     overflow: auto;
 }
-
-/* Test */
 
 .content {
   opacity: 0;
@@ -139,15 +138,51 @@ input[type=submit] {
 
 
 .popup-window {
-    height: 150px;
-    width: 150px;
+    position: fixed;
+    height: 600px;
+    width: 600px;
     background: rgba(111, 163, 148, 0.8);
     border-radius: 10px;
     color: white;
     margin: 20px;
+    z-index: 150;
+    transition: all 1000ms ease-out;
+    left: 20%;
+    bottom: 5%;
+    overflow: scroll;
 }
 
-.popup-window p {
+.close {
+    width: 20px;
     cursor: pointer;
     text-align: right;
+    font-size: 35px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.popup-window img {
+    width: 400px;
+    height: 400px;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.greyBackground {
+    position: fixed;
+    z-index: 100;
+    min-width: 100%;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: all 1000ms ease-out;
+}
+
+.commentField {
+    background-color: lightgray;
+    margin: 5px;
+    border-radius: 10px;
+    min-height: 50px;
+    padding: 5px;
 }

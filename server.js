@@ -17,6 +17,9 @@ app.use(express.json());
 const { uploader } = require("./functions");
 const { insertImage } = require("./functions");
 const { getAllImages } = require("./functions");
+const { getImage } = require("./functions");
+const { getAllComments } = require("./functions");
+const { insertComment } = require("./functions");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -40,11 +43,35 @@ app.get("/getimages", (req, res) => {
 /////////////////////////////////////////////////////// Part 3 ////////////////////////////////////////////////////////
 
 app.get("/image/:id", (req, res) => {
-    // get id from the request
-    // get image data from database, finding by id
+    // console.log("req.params in get request image/:id ", req.params);
+
+    getImage(req.params.id).then((infoAboutImage) => {
+
+        res.json(infoAboutImage);
+    })
+});
+
+////////////////////////////////////////////////////   Part 4  ///////////////////////////////////////////////////////
+
+
+app.get("/comments/:imageId", (req, res) => {
+
+    getAllComments(req.params.imageId).then((allTheComments) => {
+
+        res.json(allTheComments);
+    })
+
+});
+
+
+
+app.post("/comments/:imageId", (req, res) => {
+
+
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 app.post("/image", uploader.single("file"), s3.upload, (req, res) => {

@@ -1,5 +1,5 @@
 import * as Vue from './vue.js';
-import popupWindow from "./components.js";
+import popupWindow from "./popup-component.js";
 
 
 Vue.createApp({
@@ -38,8 +38,8 @@ Vue.createApp({
 
             const myFormData = new FormData(form);
 
-            console.log("images: ", this.images);
-            console.log("myFormData: ", myFormData);
+            // console.log("images: ", this.images);
+            // console.log("myFormData: ", myFormData);
 
             //// ??? /////
             myFormData.append("title", this.images.title);
@@ -82,7 +82,7 @@ Vue.createApp({
     },
     mounted() {
 
-          fetch("/getimages")
+          fetch("/getImages")
               .then((res) => res.json())
               .then((data) => {
                   console.log("data received from server: ", data);
