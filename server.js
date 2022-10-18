@@ -12,35 +12,50 @@ const s3 = require("./s3");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
-/////////// for uploading files to the server: /////////////
+const {
+    uploader,
+    insertImage,
+    getAllImages,
+    getImage,
+    getAllComments,
+    insertComment,
+    getMoreImages
+} = require("./functions");
 
-const { uploader } = require("./functions");
-const { insertImage } = require("./functions");
-const { getAllImages } = require("./functions");
-const { getImage } = require("./functions");
-const { getAllComments } = require("./functions");
-const { insertComment } = require("./functions");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
-});
 
+    res.sendFile(path.join(__dirname, "index.html"));
+
+});
 
 
 app.get("/getimages", (req, res) => {
+
     getAllImages().then((existingImages) => {
-        // console.log(
-        //     "existingImages after getAllImages in get request: ",
-        //     existingImages
-        // );
+
         res.json(existingImages);
     });
+
 });
 
+//////////////// For the load more button: ///////////////////////
+
+app.post("/getMoreImages", (req, res) => {
+
+    // console.log("req.body in /getMoreImages: ", req.body);
+
+    getMoreImages(req.body.lowestImageId).then((newImages) => {
+
+        res.json(newImages);
+
+    });
+
+});
 
 /////////////////////////////////////////////////////// Part 3 ////////////////////////////////////////////////////////
 

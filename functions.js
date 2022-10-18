@@ -45,13 +45,31 @@ module.exports.insertImage = function (title, description, username, url) {
 module.exports.getAllImages = function () {
     const sql = `
         SELECT * FROM images
-        ORDER BY id DESC;
+        ORDER BY id DESC 
+        LIMIT 8;
     `;
     return db
         .query(sql)
         .then((result) => result.rows)
         .catch((error) => console.log("error in GetAllImages function", error));
 };
+
+//////////////////// for the load more button /////////////////////
+
+module.exports.getMoreImages = function (lowestId) {
+    const sql = `
+    SELECT * FROM images
+    WHERE id < $1
+    ORDER BY id DESC
+    LIMIT 8
+    `;
+    return db
+        .query(sql, [lowestId])
+        .then((result) => result.rows)
+        .catch((error) => console.log("error in GetMoreImages function", error));
+};
+
+///////////////////////////////////////////////////////////////////
 
 
 module.exports.getImage = function (id) {

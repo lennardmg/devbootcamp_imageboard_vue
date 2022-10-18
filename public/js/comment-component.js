@@ -11,46 +11,48 @@ const commentField = {
     methods: {
         uploadComment: function (e) {
             // what happens when the button gets clicked
-                const form = e.currentTarget;
-                 const usernameInput = form.querySelector("#comment_username");
-                  const commentInput = form.querySelector("#comment_field");
-                  console.log("form: ", form);
+            const form = e.currentTarget;
+            const usernameInput = form.querySelector("#comment_username");
+            const commentInput = form.querySelector("#comment_field");
+            console.log("form: ", form);
 
-                 console.log(
-                     "commentInput and usernameInput in uploadComment method: ",
-                     commentInput.value, usernameInput.value
-                 );
+            console.log(
+                "commentInput and usernameInput in uploadComment method: ",
+                commentInput.value,
+                usernameInput.value
+            );
 
-                 if (!commentInput.value || !usernameInput.value) {
-                     this.comment_message = "Please fill out both fields!";
-                     return;
-                 }
+            if (!commentInput.value || !usernameInput.value) {
+                this.comment_message = "Please fill out both fields!";
+                return;
+            }
 
-                 const newCommentData = {
-                    "image_id": this.selectedImageId,
-                    "username": usernameInput.value,
-                    "comment": commentInput.value
-                 }
+            const newCommentData = {
+                image_id: this.selectedImageId,
+                username: usernameInput.value,
+                comment: commentInput.value,
+            };
 
-                 fetch("/comments", {
-                     method: "post",
-                     headers: {
-                        "content-type": "application/json"
-                     },
-                    //  body: newCommentData,
-                     body: JSON.stringify(newCommentData),
-                 })
-                     .then((res) => res.json())
-                     .then((data) => {
-                         console.log("data received from server: ", data);
-                         if (data.message) {
-                             this.comment_message = data.message;
-                         }
-                         if (data.success) {
-                             this.selectedComments.unshift(data.newComment);
-                         }
-                     });
-
+            fetch("/comments", {
+                method: "post",
+                headers: {
+                    "content-type": "application/json",
+                },
+                //  body: newCommentData,
+                body: JSON.stringify(newCommentData),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log("data received from server: ", data);
+                    if (data.message) {
+                        this.comment_message = data.message;
+                    }
+                    if (data.success) {
+                        this.selectedComments.unshift(data.newComment);
+                        commentInput.value = "";
+                        usernameInput.value = "";
+                    }
+                });
         },
     },
     props: ["selected-image-id"],
@@ -60,7 +62,6 @@ const commentField = {
             .then((data) => {
                 // console.log("data received from server: ", data);
                 this.selectedComments = data;
-     
             });
     },
     template: `
@@ -79,9 +80,9 @@ const commentField = {
                 <input v-model="comment_field" type="text" name="comment_field" id="comment_field">
 
                 <input type="submit" value="Comment">
-                <br>
-                <p> this is picture: {{ selectedImageId }} </p>
+                <br> <br>
                 <hr>
+                <br>
             </form>
 
             
@@ -90,10 +91,10 @@ const commentField = {
                 <div v-for="selectedComment in selectedComments">
                     <p> <strong>{{ selectedComment.comment }} </strong> </p>
                     <p> by <em>{{ selectedComment.username }}</em> at <em>{{ selectedComment.created_at }}</em> </p>
+                    <br>
                     <hr>
                 </div>
-            
-
+        
             </div>
 
         </div>

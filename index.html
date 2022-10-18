@@ -41,17 +41,26 @@
 </form>
 
 
-<div class="flexContainer" v-if="images.length > 0">
+    <div class="flexContainer" v-if="images.length > 0">
 
-    <div class="picture" v-for="image in images" @click="showId(image.id)">
-        <img :src="image.url" alt="Image Board picture">
-        <p> {{ image.title }} <em> by {{ image.username }} </em> </p>
-        <div class="content">
-            <div class="text"> {{ image.description }} </div>
+        <div class="picture" v-for="image in images" @click="showId(image.id)">
+            <img :src="image.url" alt="Image Board picture">
+            <p> {{ image.title }} <em> by {{ image.username }} </em> </p>
+            <div class="content">
+                <div class="text"> <p>{{ image.description }} </p></div>
+            </div>
         </div>
+
     </div>
 
-</div>
+    <!-- the load more button -->
+    <form v-on:submit.prevent="loadMore" method="POST" v-if="showLoadMoreButton">
+
+    <h3 style="text-align:center;"> <input type="submit" value="Load more ..."  class="loadMoreButton"> </h3>
+
+    </form>
+
+
 
 </div>
 

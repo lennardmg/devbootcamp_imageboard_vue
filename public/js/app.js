@@ -11,6 +11,8 @@ Vue.createApp({
             images: [],
             showPopUp: false,
             selectedId: null,
+            lowestImageId: null,
+            showLoadMoreButton: true,
         };
     },
     /////////////////////////////////////////////////////////////////////////////////////
@@ -22,14 +24,14 @@ Vue.createApp({
     methods: {
         upload(e) {
             const form = e.currentTarget;
-            console.log({ form });
+            // console.log({ form });
 
             // get the file input
             // check its files.
             // if no files, set error message!
             const fileInput = form.querySelector("input[type=file]");
 
-            console.log("fileInput.files in upload method: ", fileInput.files);
+            // console.log("fileInput.files in upload method: ", fileInput.files);
 
             if (fileInput.files.length < 1) {
                 this.message = "You must first select a file!";
@@ -54,7 +56,7 @@ Vue.createApp({
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log("data received from server: ", data);
+                    // console.log("data received from server: ", data);
                     if (data.message) {
                         this.message = data.message;
                     }
@@ -65,19 +67,51 @@ Vue.createApp({
         },
         setFile(e) {
             /// here still needs to go sth 
-            console.log("e in setFile: ", e);
+            // console.log("e in setFile: ", e);
         },
         openPopUp(e) {
-            console.log("e in openPopUp: ", e);
-            console.log("trying to get the image id: ", e.currentTarget);
+            // console.log("e in openPopUp: ", e);
+            // console.log("trying to get the image id: ", e.currentTarget);
         },
         showId(id) {
-            console.log("i clicked on image with id: ", id);
+            // console.log("i clicked on image with id: ", id);
             this.showPopUp = true;
             this.selectedId = id;
+            //// to change the current URL, including the (image)id ////
+            history.pushState({}, "", `/${id}`);
         },
         closeWindow(e) {
             this.showPopUp = false;
+            //// to change the current URL back to normal route ////
+            history.pushState({}, "", "/");
+        },
+        loadMore(e) {
+
+              fetch("/getMoreImages", {
+                  method: "post",
+                  headers: {
+                      "content-type": "application/json",
+                  },
+                  body: JSON.stringify({ "lowestImageId": this.lowestImageId }),
+              })
+                  .then((res) => res.json())
+                  .then((moreImages) => {
+                
+                    // console.log("data in fetch of loadMore: ", moreImages);
+
+                    for (let image of moreImages) {
+                        console.log("image: ", image);
+                        this.images.push(image);
+                    }
+
+                    this.lowestImageId = moreImages[moreImages.length -1].id;
+
+                    if (this.lowestImageId == 1) {
+                        this.showLoadMoreButton = false;
+                    }
+
+                  });
+
         },
     },
     mounted() {
@@ -85,8 +119,10 @@ Vue.createApp({
           fetch("/getImages")
               .then((res) => res.json())
               .then((data) => {
-                  console.log("data received from server: ", data);
+                    //   console.log("data received from server: ", data);
                     this.images = data;
+                    this.lowestImageId = data[data.length -1].id;
+                    // console.log("lowestImageId: ", this.lowestImageId);
               });
 
     },
