@@ -29,6 +29,8 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
 });
 
+
+
 app.get("/getimages", (req, res) => {
     getAllImages().then((existingImages) => {
         // console.log(
@@ -56,7 +58,11 @@ app.get("/image/:id", (req, res) => {
 
 app.get("/comments/:imageId", (req, res) => {
 
+    // console.log("req.params, ", req.params);
+
     getAllComments(req.params.imageId).then((allTheComments) => {
+
+        // console.log("all the comments: ", allTheComments);
 
         res.json(allTheComments);
     })
@@ -65,8 +71,30 @@ app.get("/comments/:imageId", (req, res) => {
 
 
 
-app.post("/comments/:imageId", (req, res) => {
+app.post("/comments", (req, res) => {
 
+    // console.log("req.params in post /comments: ", req.params);
+    // console.log("req.body in post /comments: ", req.body);
+    // console.log("req: ", req);
+
+       const newComment = {
+
+           image_id: req.body.image_id,
+           comment: req.body.comment,
+           username: req.body.username,
+       };
+
+       insertComment(
+           req.body.image_id,
+           req.body.username,
+           req.body.comment
+       ).then(() => {
+           res.json({
+               success: true,
+               comment_message: "Thanks for your comment!",
+               newComment,
+           });
+       });
 
 });
 

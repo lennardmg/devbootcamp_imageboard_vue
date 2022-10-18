@@ -65,17 +65,19 @@ module.exports.getImage = function (id) {
 };
 
 
+
 module.exports.getAllComments = function (image_id) {
     const sql = `
         SELECT * FROM comments
-        ORDER BY id DESC 
-        WHERE image_id = $1;
+        WHERE image_id = $1
+        ORDER BY id DESC;
     `;
     return db
         .query(sql, [image_id])
         .then((result) => result.rows)
         .catch((error) => console.log("error in getAllComments function", error));
 };
+
 
 
 module.exports.insertComment = function (image_id, username, comment) {
